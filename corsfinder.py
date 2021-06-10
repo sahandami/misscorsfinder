@@ -22,28 +22,24 @@ def reqsender(url):
         #print(res.headers)
         #print(url)
         if 'Access-Control-Allow-Origin' in res.headers:
-                print(url,'\033[1;31;40m  =>[Access-Control-Allow-Origin] \033[1;37;40m')
-                file1 = open('corsmis', 'a')
-                file1.write(url+'\n')
-                file1.close()
 
-        elif 'Access-Control-Allow-Credentials' in res.headers:
-                print(url,'\033[1;31;40m  =>[Access-Control-Allow-Credentials] \033[1;37;40m')
-                file1 = open('corsmis', 'a')
-                file1.write(url+'\n')
-                file1.close()
+                if 'Access-Control-Allow-Credentials' in res.headers:
+                        print(url,'\033[1;31;40m  =>[Access-Control-Allow-Credentials] \033[1;37;40m')
+                        file1 = open('corsmis', 'a')
+                        file1.write(url+'[ACAC]\n')
+                        file1.close()
 
         elif 'access-control-allow-origin' in res.headers:
-                print(url,'\033[1;31;40m  =>[access-control-allow-origin] \033[1;37;40m')
+                print(url,'\033[1;33;40m  =>[access-control-allow-origin] \033[1;37;40m')
                 file1 = open('corsmis', 'a')
-                file1.write(url+'\n')
+                file1.write(url+'[acao]\n')
                 file1.close()
 
-        elif 'access-control-allow-credentials' in res.headers:
-                print(url,'\033[1;31;40m  =>[access-control-allow-credentials] \033[1;37;40m')
-                file1 = open('corsmis', 'a')
-                file1.write(url+'\n')
-                file1.close()
+                if 'access-control-allow-credentials' in res.headers:
+                        print(url,'\033[1;31;40m  =>[access-control-allow-credentials] \033[1;37;40m')
+                        file1 = open('corsmis', 'a')
+                        file1.write(url+'[acac]\n')
+                        file1.close()
         else:
                 print(url)
 
