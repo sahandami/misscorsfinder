@@ -18,12 +18,12 @@ urllib3.disable_warnings(urllib3.exceptions.InsecureRequestWarning)
 def reqsender(url):
         url = url[:-1]
 
-        origind = url.split('h')[1].split('/')[2]
+        origind = url.split('http')[1].split('/')[2]
         if url[:5] == 'https':
                 origin = 'https://'+origind
 
         elif url[:4] == 'http':
-                origin = 'http://'+origin
+                origin = 'http://'+origind
 
         res = requests.get(url, headers={'Origin': origin}, verify=False, stream=True)
         #print(res.headers)
