@@ -8,7 +8,6 @@ import sys
 import time
 from subprocess import check_output
 
-os.system('> corsmis')
 
 pwd = check_output('pwd').strip()
 filename_demo = sys.argv[1]
@@ -18,7 +17,15 @@ urllib3.disable_warnings(urllib3.exceptions.InsecureRequestWarning)
 
 def reqsender(url):
         url = url[:-1]
-        res = requests.get(url, headers={'Origin': url}, verify=False, stream=True)
+
+        origind = url.split('h')[1].split('/')[2]
+        if url[:5] == 'https':
+                origin = 'https://'+origind
+
+        elif url[:4] == 'http':
+                origin = 'http://'+origin
+
+        res = requests.get(url, headers={'Origin': origin}, verify=False, stream=True)
         #print(res.headers)
         #print(url)
         if 'Access-Control-Allow-Origin' in res.headers:
@@ -29,17 +36,6 @@ def reqsender(url):
                         file1.write(url+'[ACAC]\n')
                         file1.close()
 
-        elif 'access-control-allow-origin' in res.headers:
-                print(url,'\033[1;33;40m  =>[access-control-allow-origin] \033[1;37;40m')
-                file1 = open('corsmis', 'a')
-                file1.write(url+'[acao]\n')
-                file1.close()
-
-                if 'access-control-allow-credentials' in res.headers:
-                        print(url,'\033[1;31;40m  =>[access-control-allow-credentials] \033[1;37;40m')
-                        file1 = open('corsmis', 'a')
-                        file1.write(url+'[acac]\n')
-                        file1.close()
         else:
                 print(url)
 
@@ -50,7 +46,7 @@ Lines = file.readlines()
 file.close()
 
 processes = []
-with ThreadPoolExecutor(max_workers=20) as executor:
+with ThreadPoolExecutor(max_workers=100) as executor:
         for line in Lines:
                 url = line[:-1]
                 processes.append(executor.submit(reqsender,line))
